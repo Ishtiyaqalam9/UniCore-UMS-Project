@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}Delete Account | UMS{% endblock %}
+{% block content %}<div class="confirm-card"><div class="confirm-icon">!</div><h1>Delete login account?</h1><p>The login account <strong>{{ account.username }}</strong> will be deleted. The linked profile and academic records will remain unchanged.</p><form method="post">{% csrf_token %}<button class="btn btn-danger" type="submit">Yes, Delete Account</button><a class="btn btn-ghost" href="{% url 'account_list' %}">Cancel</a></form></div>{% endblock %}

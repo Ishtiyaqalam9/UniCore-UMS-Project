@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Delete Teacher | UMS{% endblock %}
+{% block content %}
+<div class="confirm-card">
+  <div class="confirm-icon">!</div><h1>Delete teacher?</h1>
+  <p>You are about to delete <strong>{{ teacher.name }}</strong> ({{ teacher.reference_code }}). This cannot be undone.</p>
+  <form method="post">{% csrf_token %}<button class="btn btn-danger" type="submit">Yes, Delete</button><a class="btn btn-ghost" href="{% url 'teacher_list' %}">Cancel</a></form>
+</div>
+{% endblock %}

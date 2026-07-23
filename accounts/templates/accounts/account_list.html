@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Login Accounts | UMS{% endblock %}
+{% block content %}
+<div class="page-header"><div><span class="eyebrow">Role-based authentication</span><h1>Login Accounts</h1><p>Create separate accounts for students, teachers and administrators.</p></div><a class="btn btn-primary" href="{% url 'account_create' %}">+ Create Account</a></div>
+<form class="filter-bar" method="get"><input class="form-control" type="search" name="q" value="{{ query }}" placeholder="Search username, name or reference ID"><select class="form-control" name="role"><option value="">All roles</option>{% for value,label in role_choices %}<option value="{{ value }}" {% if selected_role == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><button class="btn btn-secondary">Filter</button><a class="btn btn-ghost" href="{% url 'account_list' %}">Reset</a></form>
+<div class="table-card"><div class="table-responsive"><table><thead><tr><th>Username</th><th>Person</th><th>Role</th><th>Reference ID</th><th>Email</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+{% for row in rows %}<tr><td><strong>{{ row.user.username }}</strong></td><td>{{ row.display_name|default:"—" }}</td><td><span class="badge">{{ row.role_label }}</span></td><td>{{ row.reference_id|default:"—" }}</td><td>{{ row.user.email|default:"—" }}</td><td>{% if row.user.is_active %}<span class="status-pill success">Active</span>{% else %}<span class="status-pill danger">Inactive</span>{% endif %}</td><td class="actions"><a href="{% url 'account_password_reset' row.user.id %}">Reset Password</a><form class="inline-form" method="post" action="{% url 'account_toggle' row.user.id %}">{% csrf_token %}<button class="link-button" type="submit">{% if row.user.is_active %}Deactivate{% else %}Activate{% endif %}</button></form><a class="danger-link" href="{% url 'account_delete' row.user.id %}">Delete</a></td></tr>
+{% empty %}<tr><td colspan="7" class="empty-state">No role accounts found. Create an account after adding the student or teacher profile.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

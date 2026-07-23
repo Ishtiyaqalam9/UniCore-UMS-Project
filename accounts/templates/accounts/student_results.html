@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Results | UniCore{% endblock %}
+{% block header_title %}Results{% endblock %}
+{% block content %}
+<div class="page-header"><div><span class="eyebrow">Assessment</span><h1>My Results</h1><p>Published marks and grades for your registered courses.</p></div></div>
+<div class="table-card"><div class="table-responsive"><table><thead><tr><th>Course</th><th>Exam</th><th>Marks</th><th>Grade</th><th>Remarks</th></tr></thead><tbody>{% for item in results %}<tr><td><strong>{{ item.enrollment.course.code }}</strong><small class="table-subtitle">{{ item.enrollment.course.title }}</small></td><td>{{ item.exam_type }}</td><td><strong>{{ item.marks }}</strong> / 100</td><td><span class="grade-badge">{{ item.grade }}</span></td><td>{{ item.remarks|default:"—" }}</td></tr>{% empty %}<tr><td colspan="5" class="empty-state">No result has been published yet.</td></tr>{% endfor %}</tbody></table></div></div>
+{% endblock %}

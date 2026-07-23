@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="University Management System">
+  <title>{% block title %}University Management System{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'ums/css/style.css' %}?v=20260722-ui2">
+  {% block extra_css %}{% endblock %}
+</head>
+<body class="{% if user.is_authenticated %}app-body{% else %}public-body{% endif %}">
+{% if user.is_authenticated %}
+  {% with current=request.resolver_match.url_name %}
+  <div class="app-layout">
+    <aside class="sidebar" data-sidebar>
+      <div class="sidebar-brand">
+        <a href="{% url 'portal_redirect' %}" class="brand-link">
+          <span class="brand-symbol">U</span>
+          <span><strong>UniCore</strong><small>University Management System</small></span>
+        </a>
+        <button class="sidebar-close" type="button" aria-label="Close menu" data-sidebar-close>×</button>
+      </div>
+
+      <div class="sidebar-profile">
+        <span class="profile-avatar">{{ ums_profile.display_name|default:user.username|first|upper }}</span>
+        <div><strong>{{ ums_profile.display_name|default:user.username }}</strong><small>{% if ums_role == "ADMIN" %}Administrator{% elif ums_role == "STUDENT" %}{{ ums_profile.reference_id }} · Student{% else %}{{ ums_profile.reference_id }} · Teacher{% endif %}</small></div>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Main navigation">
+        {% if ums_role == "ADMIN" %}
+          <span class="nav-section-label">Overview</span>
+          <a class="nav-item {% if current == 'home' %}active{% endif %}" href="{% url 'home' %}"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+          <span class="nav-section-label">Management</span>
+          <a class="nav-item {% if current == 'student_list' or current == 'add_student' or current == 'edit_student' %}active{% endif %}" href="{% url 'student_list' %}"><span class="nav-icon">S</span><span>Students</span></a>
+          <a class="nav-item {% if current == 'teacher_list' or current == 'add_teacher' or current == 'edit_teacher' %}active{% endif %}" href="{% url 'teacher_list' %}"><span class="nav-icon">T</span><span>Teachers</span></a>
+          <a class="nav-item {% if current == 'academic_dashboard' or current == 'department_list' or current == 'course_list' or current == 'enrollment_list' or current == 'assignment_list' or current == 'attendance_list' or current == 'result_list' or current == 'fee_list' or current == 'routine_list' or current == 'notice_list' %}active{% endif %}" href="{% url 'academic_dashboard' %}"><span class="nav-icon">A</span><span>Academic</span></a>
+          <a class="nav-item {% if current == 'library_list' or current == 'issue_list' %}active{% endif %}" href="{% url 'library_list' %}"><span class="nav-icon">L</span><span>Library</span></a>
+          <a class="nav-item {% if current == 'bus_card_list' or current == 'bus_card_review' %}active{% endif %}" href="{% url 'bus_card_list' %}"><span class="nav-icon">B</span><span>Bus Cards</span></a>
+          <a class="nav-item {% if current == 'account_list' or current == 'account_create' %}active{% endif %}" href="{% url 'account_list' %}"><span class="nav-icon">U</span><span>User Accounts</span></a>
+          {% if user.is_staff %}<a class="nav-item" href="{% url 'admin:index' %}"><span class="nav-icon">⚙</span><span>System Admin</span></a>{% endif %}
+
+        {% elif ums_role == "STUDENT" %}
+          <span class="nav-section-label">Student Portal</span>
+          <a class="nav-item {% if current == 'student_portal' %}active{% endif %}" href="{% url 'student_portal' %}"><span class="nav-icon">⌂</span><span>Overview</span></a>
+          <a class="nav-item {% if current == 'student_profile' %}active{% endif %}" href="{% url 'student_profile' %}"><span class="nav-icon">P</span><span>My Profile</span></a>
+          <span class="nav-section-label">Academics</span>
+          <a class="nav-item {% if current == 'student_course_registration' %}active{% endif %}" href="{% url 'student_course_registration' %}"><span class="nav-icon">+</span><span>Course Registration</span></a>
+          <a class="nav-item {% if current == 'student_courses' %}active{% endif %}" href="{% url 'student_courses' %}"><span class="nav-icon">C</span><span>My Courses</span></a>
+          <a class="nav-item {% if current == 'student_attendance_summary' %}active{% endif %}" href="{% url 'student_attendance_summary' %}"><span class="nav-icon">✓</span><span>Attendance</span></a>
+          <a class="nav-item {% if current == 'student_results' %}active{% endif %}" href="{% url 'student_results' %}"><span class="nav-icon">R</span><span>Results</span></a>
+          <a class="nav-item {% if current == 'student_routine' %}active{% endif %}" href="{% url 'student_routine' %}"><span class="nav-icon">◷</span><span>Class Routine</span></a>
+          <a class="nav-item {% if current == 'student_fees' %}active{% endif %}" href="{% url 'student_fees' %}"><span class="nav-icon">৳</span><span>Fees</span></a>
+          <span class="nav-section-label">Campus Services</span>
+          <a class="nav-item {% if current == 'member_library_catalog' or current == 'my_library' or current == 'self_issue_book' %}active{% endif %}" href="{% url 'member_library_catalog' %}"><span class="nav-icon">L</span><span>Library</span></a>
+          <a class="nav-item {% if current == 'student_bus_card' %}active{% endif %}" href="{% url 'student_bus_card' %}"><span class="nav-icon">B</span><span>Bus Card</span></a>
+          <a class="nav-item {% if current == 'student_notices' %}active{% endif %}" href="{% url 'student_notices' %}"><span class="nav-icon">N</span><span>Notices</span></a>
+
+        {% elif ums_role == "TEACHER" %}
+          <span class="nav-section-label">Faculty Portal</span>
+          <a class="nav-item {% if current == 'teacher_portal' %}active{% endif %}" href="{% url 'teacher_portal' %}"><span class="nav-icon">⌂</span><span>Overview</span></a>
+          <a class="nav-item {% if current == 'teacher_profile' %}active{% endif %}" href="{% url 'teacher_profile' %}"><span class="nav-icon">P</span><span>My Profile</span></a>
+          <span class="nav-section-label">Academic Work</span>
+          <a class="nav-item {% if current == 'teacher_courses' or current == 'teacher_course' %}active{% endif %}" href="{% url 'teacher_courses' %}"><span class="nav-icon">C</span><span>My Courses</span></a>
+          <a class="nav-item {% if current == 'teacher_attendance_center' or current == 'teacher_attendance' %}active{% endif %}" href="{% url 'teacher_attendance_center' %}"><span class="nav-icon">✓</span><span>Take Attendance</span></a>
+          <a class="nav-item {% if current == 'teacher_results_center' or current == 'teacher_results' %}active{% endif %}" href="{% url 'teacher_results_center' %}"><span class="nav-icon">R</span><span>Manage Results</span></a>
+          <a class="nav-item {% if current == 'teacher_routine' %}active{% endif %}" href="{% url 'teacher_routine' %}"><span class="nav-icon">◷</span><span>Class Routine</span></a>
+          <span class="nav-section-label">Resources</span>
+          <a class="nav-item {% if current == 'member_library_catalog' or current == 'my_library' or current == 'self_issue_book' %}active{% endif %}" href="{% url 'member_library_catalog' %}"><span class="nav-icon">L</span><span>Library</span></a>
+          <a class="nav-item {% if current == 'teacher_notices' %}active{% endif %}" href="{% url 'teacher_notices' %}"><span class="nav-icon">N</span><span>Notices</span></a>
+        {% endif %}
+      </nav>
+
+      <div class="sidebar-footer">
+        <a class="nav-item {% if current == 'change_password' %}active{% endif %}" href="{% url 'change_password' %}"><span class="nav-icon">K</span><span>Change Password</span></a>
+        <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="nav-item logout-item" type="submit"><span class="nav-icon">↗</span><span>Sign Out</span></button></form>
+      </div>
+    </aside>
+    <div class="sidebar-backdrop" data-sidebar-backdrop></div>
+
+    <div class="app-main">
+      <header class="app-header">
+        <div class="header-left">
+          <button class="menu-toggle" type="button" aria-label="Open navigation" data-sidebar-open>☰</button>
+          <div><span class="header-kicker">{% if ums_role == 'ADMIN' %}Administration{% elif ums_role == 'STUDENT' %}Student Portal{% else %}Faculty Portal{% endif %}</span><strong>{% block header_title %}University Management System{% endblock %}</strong></div>
+        </div>
+        <div class="header-actions"><span class="date-chip">{% now "D, M d" %}</span><span class="header-avatar">{{ ums_profile.display_name|default:user.username|first|upper }}</span></div>
+      </header>
+
+      <main class="app-content">
+        {% if messages %}<div class="messages">{% for message in messages %}<div class="alert alert-{{ message.tags|default:'info' }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+        {% block content %}{% endblock %}
+      </main>
+      <footer class="app-footer">© {% now "Y" %} UniCore University Management System</footer>
+    </div>
+  </div>
+  {% endwith %}
+{% else %}
+  <header class="public-header"><a href="{% url 'login' %}" class="brand-link"><span class="brand-symbol">U</span><span><strong>UniCore</strong><small>University Management System</small></span></a></header>
+  <main class="public-content">
+    {% if messages %}<div class="messages public-messages">{% for message in messages %}<div class="alert alert-{{ message.tags|default:'info' }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+    {% block public_content %}{% block unauth_content %}{% endblock %}{% endblock %}
+  </main>
+{% endif %}
+<script src="{% static 'ums/js/app.js' %}?v=20260722-ui2"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

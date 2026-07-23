@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Student Dashboard | UniCore{% endblock %}
+{% block header_title %}Student Dashboard{% endblock %}
+{% block content %}
+<section class="welcome-banner student-banner">
+  <div><span class="eyebrow light">Welcome back</span><h1>{{ display_name }}</h1><p>{% if student %}{{ student.dept }} · Semester {{ student.semester }}{% else %}{{ profile.reference_id }}{% endif %}</p></div>
+  <div class="welcome-actions"><a class="btn btn-light" href="{% url 'student_course_registration' %}">Register Course</a><a class="btn btn-outline-light" href="{% url 'member_library_catalog' %}">Browse Library</a></div>
+</section>
+
+<div class="metric-grid">
+  <a class="metric-card" href="{% url 'student_courses' %}"><span class="metric-icon">C</span><div><small>Registered Courses</small><strong>{{ enrollment_count }}</strong><span>View course list</span></div></a>
+  <a class="metric-card" href="{% url 'student_attendance_summary' %}"><span class="metric-icon">✓</span><div><small>Attendance</small><strong>{{ attendance_rate }}%</strong><span>View attendance</span></div></a>
+  <a class="metric-card" href="{% url 'student_results' %}"><span class="metric-icon">R</span><div><small>Published Results</small><strong>{{ result_count }}</strong><span>View results</span></div></a>
+  <a class="metric-card" href="{% url 'student_fees' %}"><span class="metric-icon">৳</span><div><small>Outstanding Fees</small><strong>৳{{ fee_balance|floatformat:0 }}</strong><span>View fee details</span></div></a>
+</div>
+
+<div class="dashboard-grid">
+  <section class="panel panel-span-2">
+    <div class="panel-head"><div><span class="eyebrow">Academic</span><h2>Current Courses</h2></div><a href="{% url 'student_courses' %}">View all</a></div>
+    <div class="course-list-compact">
+      {% for item in recent_enrollments %}
+      <article><span class="course-code">{{ item.course.code }}</span><div><strong>{{ item.course.title }}</strong><small>{{ item.course.department.name }} · {{ item.course.credit }} credits</small></div><span class="soft-badge">Semester {{ item.semester }}</span></article>
+      {% empty %}<div class="empty-state">No courses registered yet. <a href="{% url 'student_course_registration' %}">Register a course</a>.</div>{% endfor %}
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><div><span class="eyebrow">Campus Service</span><h2>Bus Card</h2></div><a href="{% url 'student_bus_card' %}">Open</a></div>
+    {% if bus_card %}<div class="service-status"><span class="status-dot status-{{ bus_card.status|lower }}"></span><div><strong>{{ bus_card.get_status_display }}</strong><small>Application for {{ bus_card.academic_year }}</small></div></div>{% else %}<div class="empty-state compact">No application submitted.</div><a class="btn btn-secondary btn-block" href="{% url 'student_bus_card' %}">Apply for Bus Card</a>{% endif %}
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><div><span class="eyebrow">Library</span><h2>My Books</h2></div><a href="{% url 'my_library' %}">View all</a></div>
+    <div class="big-number-row"><strong>{{ active_book_count }}</strong><span>currently issued</span></div>
+    {% for item in recent_books|slice:":2" %}<article class="mini-row"><div><strong>{{ item.book_name }}</strong><small>Due {{ item.due_date|date:"M d, Y" }}</small></div><span class="soft-badge">{{ item.status }}</span></article>{% empty %}<div class="empty-state compact">No active library books.</div>{% endfor %}
+  </section>
+
+  <section class="panel panel-span-2">
+    <div class="panel-head"><div><span class="eyebrow">Updates</span><h2>Latest Notices</h2></div><a href="{% url 'student_notices' %}">View all</a></div>
+    {% for notice in notices %}<article class="notice-row"><span class="notice-date"><strong>{{ notice.publish_date|date:"d" }}</strong><small>{{ notice.publish_date|date:"M" }}</small></span><div><strong>{{ notice.title }}</strong><p>{{ notice.content|truncatechars:150 }}</p></div><span class="soft-badge">{{ notice.audience }}</span></article>{% empty %}<div class="empty-state">No active notices.</div>{% endfor %}
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><div><span class="eyebrow">Results</span><h2>Recent Grades</h2></div><a href="{% url 'student_results' %}">View all</a></div>
+    {% for item in recent_results %}<article class="mini-row"><div><strong>{{ item.enrollment.course.code }} · {{ item.exam_type }}</strong><small>{{ item.marks }} marks</small></div><span class="grade-badge">{{ item.grade }}</span></article>{% empty %}<div class="empty-state compact">No results published yet.</div>{% endfor %}
+  </section>
+</div>
+{% endblock %}

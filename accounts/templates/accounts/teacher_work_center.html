@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} | UniCore{% endblock %}
+{% block header_title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="page-header"><div><span class="eyebrow">Academic Work</span><h1>{{ title }}</h1><p>{{ subtitle }}</p></div></div>
+<div class="course-card-grid">{% for item in assignments %}<article class="course-card modern"><div class="course-card-top"><span class="course-code">{{ item.course.code }}</span><span class="soft-badge">Semester {{ item.semester }}</span></div><h3>{{ item.course.title }}</h3><p>{{ item.course.department.name }} · {{ item.academic_year }}</p><a class="btn btn-primary btn-block" href="{% url action_url_name item.id %}">{{ action_label }}</a></article>{% empty %}<div class="panel empty-state">No assigned courses are available.</div>{% endfor %}</div>
+{% endblock %}

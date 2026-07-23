@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}Delete {{ title }} | UMS{% endblock %}
+{% block content %}<div class="confirm-card"><div class="confirm-icon">!</div><h1>Delete {{ title|lower }}?</h1><p>You are about to delete <strong>{{ object }}</strong>. Related records may also be affected.</p><form method="post">{% csrf_token %}<button class="btn btn-danger" type="submit">Yes, Delete</button><a class="btn btn-ghost" href="{% url list_url %}">Cancel</a></form></div>{% endblock %}

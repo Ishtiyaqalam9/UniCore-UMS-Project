@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Teachers | UMS{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <span class="eyebrow">Faculty Records</span>
+    <h1>Teacher Management</h1>
+    <p>Create and manage faculty profiles, assignments and contact information.</p>
+  </div>
+  <div class="button-row"><a class="btn btn-secondary" href="{% url 'assignment_add' %}">Assign Course</a><a class="btn btn-primary" href="{% url 'add_teacher' %}">+ Add Teacher</a></div>
+</div>
+
+<form class="filter-bar" method="get">
+  <input class="form-control" type="search" name="q" value="{{ query }}" placeholder="Search ID, name, subject or contact">
+  <select class="form-control" name="department">
+    <option value="">All departments</option>
+    {% for department in departments %}
+      <option value="{{ department }}" {% if selected_department == department %}selected{% endif %}>{{ department }}</option>
+    {% endfor %}
+  </select>
+  <select class="form-control" name="status">
+    <option value="">All statuses</option>
+    {% for value, label in status_choices %}
+      <option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>{{ label }}</option>
+    {% endfor %}
+  </select>
+  <button class="btn btn-secondary" type="submit">Filter</button>
+  <a class="btn btn-ghost" href="{% url 'teacher_list' %}">Reset</a>
+</form>
+
+<div class="table-card">
+  <div class="table-responsive">
+    <table>
+      <thead><tr><th>Employee ID</th><th>Name</th><th>Department</th><th>Designation</th><th>Subject</th><th>Contact</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        {% for teacher in teachers %}
+          <tr>
+            <td><strong>{{ teacher.reference_code }}</strong></td>
+            <td>{{ teacher.name }}<div class="muted">Age {{ teacher.age }}</div></td>
+            <td>{{ teacher.department|default:"—" }}</td>
+            <td>{{ teacher.designation|default:"—" }}</td>
+            <td>{{ teacher.subject|default:"—" }}</td>
+            <td>{{ teacher.email|default:"—" }}<div class="muted">{{ teacher.phone|default:"" }}</div></td>
+            <td><span class="badge">{{ teacher.status }}</span></td>
+            <td class="actions"><a href="{% url 'assignment_add' %}?teacher_ref={{ teacher.reference_code|urlencode }}">Assign Course</a><a href="{% url 'edit_teacher' teacher.pk %}">Edit</a><a class="danger-link" href="{% url 'delete_teacher' teacher.pk %}">Delete</a></td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="8" class="empty-state">No teacher records found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% include "partials/pagination.html" %}
+{% endblock %}

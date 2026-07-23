@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Sign In | UniCore{% endblock %}
+{% block public_content %}
+<div class="login-layout">
+  <section class="login-showcase">
+    <span class="login-badge">Role-Based Campus Portal</span>
+    <h1>One university. Three secure portals.</h1>
+    <p>Choose your role first, then sign in to the dashboard designed for your academic responsibilities.</p>
+    <div class="login-features"><span>Student services</span><span>Faculty workspace</span><span>Administration control</span></div>
+  </section>
+  <section class="login-panel">
+    <div class="login-card">
+      <div class="login-card-head"><span class="brand-symbol large">U</span><div><h2>Welcome back</h2><p>Select your portal and continue.</p></div></div>
+
+      {% if form.non_field_errors %}
+        <div class="alert alert-error">{% for error in form.non_field_errors %}{{ error }}{% endfor %}</div>
+      {% elif form.errors %}
+        <div class="alert alert-error">Please check the selected role, username and password.</div>
+      {% endif %}
+
+      <form method="post" novalidate>{% csrf_token %}
+        {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+
+        <div class="form-group role-form-group">
+          <label>Sign in as</label>
+          <div class="login-role-selector" role="radiogroup" aria-label="Choose portal type">
+            <label class="login-role-choice">
+              <input type="radio" name="role" value="STUDENT" {% if form.role.value == "STUDENT" or not form.role.value %}checked{% endif %}>
+              <span class="login-role-card"><span class="login-role-icon">S</span><strong>Student</strong><small>Courses & records</small></span>
+            </label>
+            <label class="login-role-choice">
+              <input type="radio" name="role" value="TEACHER" {% if form.role.value == "TEACHER" %}checked{% endif %}>
+              <span class="login-role-card"><span class="login-role-icon">T</span><strong>Teacher</strong><small>Attendance & results</small></span>
+            </label>
+            <label class="login-role-choice">
+              <input type="radio" name="role" value="ADMIN" {% if form.role.value == "ADMIN" %}checked{% endif %}>
+              <span class="login-role-card"><span class="login-role-icon">A</span><strong>Admin</strong><small>Full management</small></span>
+            </label>
+          </div>
+          {% for error in form.role.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+        </div>
+
+        <div class="form-group"><label for="id_username">Username</label>{{ form.username }}{% for error in form.username.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+        <div class="form-group"><label for="id_password">Password</label>{{ form.password }}{% for error in form.password.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>
+        <button class="btn btn-primary btn-block" type="submit">Sign In to Selected Portal</button>
+      </form>
+      <p class="login-help">Student and teacher credentials are created by the university administrator.</p>
+    </div>
+  </section>
+</div>
+{% endblock %}

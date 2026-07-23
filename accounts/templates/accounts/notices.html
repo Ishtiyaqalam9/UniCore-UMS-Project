@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Notices | UniCore{% endblock %}
+{% block header_title %}Notices{% endblock %}
+{% block content %}
+<div class="page-header"><div><span class="eyebrow">Announcements</span><h1>{{ portal_title }}</h1><p>Official updates and important campus information.</p></div></div>
+<div class="notice-feed">{% for notice in notices %}<article class="notice-card"><div class="notice-card-date"><strong>{{ notice.publish_date|date:"d" }}</strong><span>{{ notice.publish_date|date:"M Y" }}</span></div><div><div class="notice-card-head"><h2>{{ notice.title }}</h2><span class="soft-badge">{{ notice.audience }}</span></div><p>{{ notice.content|linebreaksbr }}</p></div></article>{% empty %}<div class="panel empty-state">No active notices.</div>{% endfor %}</div>
+{% endblock %}

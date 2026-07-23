@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}My Courses | UniCore{% endblock %}
+{% block header_title %}My Courses{% endblock %}
+{% block content %}
+<div class="page-header"><div><span class="eyebrow">Academic Work</span><h1>Assigned Courses</h1><p>Open a course to view students, take attendance or publish results.</p></div></div>
+<div class="course-card-grid">{% for item in assignments %}<article class="course-card modern"><div class="course-card-top"><span class="course-code">{{ item.course.code }}</span><span class="soft-badge">{{ item.course.credit }} credits</span></div><h3>{{ item.course.title }}</h3><p>{{ item.course.department.name }}</p><div class="course-meta"><span>Academic Year<strong>{{ item.academic_year }}</strong></span><span>Semester<strong>{{ item.semester }}</strong></span></div><div class="button-row"><a class="btn btn-ghost" href="{% url 'teacher_course' item.id %}">Students</a><a class="btn btn-secondary" href="{% url 'teacher_attendance' item.id %}">Attendance</a><a class="btn btn-primary" href="{% url 'teacher_results' item.id %}">Results</a></div></article>{% empty %}<div class="panel empty-state">No course has been assigned to your account.</div>{% endfor %}</div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Fees | UniCore{% endblock %}
+{% block header_title %}Fees & Payments{% endblock %}
+{% block content %}
+<div class="page-header"><div><span class="eyebrow">Student Accounts</span><h1>Fee Statement</h1><p>Review charges, payments, balances and due dates.</p></div></div>
+<div class="summary-grid"><div class="summary-card"><small>Total Charges</small><strong>৳{{ total_amount|floatformat:2 }}</strong></div><div class="summary-card success"><small>Total Paid</small><strong>৳{{ total_paid|floatformat:2 }}</strong></div><div class="summary-card danger"><small>Outstanding Balance</small><strong>৳{{ total_balance|floatformat:2 }}</strong></div></div>
+<div class="table-card"><div class="table-responsive"><table><thead><tr><th>Fee Type</th><th>Amount</th><th>Paid</th><th>Balance</th><th>Due Date</th><th>Status</th><th>Reference</th></tr></thead><tbody>{% for item in fees %}<tr><td><strong>{{ item.fee_type }}</strong></td><td>৳{{ item.amount }}</td><td>৳{{ item.paid_amount }}</td><td><strong>৳{{ item.balance }}</strong></td><td>{{ item.due_date|date:"M d, Y" }}</td><td><span class="status-pill {% if item.status == 'Paid' %}success{% elif item.status == 'Partial' %}warning{% else %}danger{% endif %}">{{ item.status }}</span></td><td>{{ item.reference|default:"—" }}</td></tr>{% empty %}<tr><td colspan="7" class="empty-state">No fee records are available.</td></tr>{% endfor %}</tbody></table></div></div>
+{% endblock %}

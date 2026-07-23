@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}My Profile | UniCore{% endblock %}
+{% block header_title %}My Profile{% endblock %}
+{% block content %}
+<div class="page-header"><div><span class="eyebrow">Personal Information</span><h1>Student Profile</h1><p>Your official identity and contact information.</p></div><span class="status-pill {% if student.status == 'Active' %}success{% endif %}">{{ student.status|default:"Profile unavailable" }}</span></div>
+{% if student %}
+<div class="profile-layout">
+  <section class="profile-card"><span class="profile-avatar-large">{{ student.name|first|upper }}</span><h2>{{ student.name }}</h2><p>{{ student.reference_code }}</p><span class="soft-badge">{{ student.dept }}</span></section>
+  <section class="panel profile-details"><div class="detail-grid"><div><small>Student ID</small><strong>{{ student.reference_code }}</strong></div><div><small>Full Name</small><strong>{{ student.name }}</strong></div><div><small>Department</small><strong>{{ student.dept }}</strong></div><div><small>Current Semester</small><strong>{{ student.semester }}</strong></div><div><small>Gender</small><strong>{{ student.gender|default:"—" }}</strong></div><div><small>Age</small><strong>{{ student.age }}</strong></div><div><small>Email</small><strong>{{ student.email|default:"—" }}</strong></div><div><small>Phone</small><strong>{{ student.phone|default:"—" }}</strong></div><div><small>Admission Date</small><strong>{{ student.admission_date|default:"—" }}</strong></div><div><small>Account Username</small><strong>{{ user.username }}</strong></div><div class="span-2"><small>Address</small><strong>{{ student.address|default:"—" }}</strong></div></div></section>
+</div>
+{% else %}<div class="alert alert-warning">Your student profile could not be loaded. Contact the administrator to verify your reference ID.</div>{% endif %}
+{% endblock %}

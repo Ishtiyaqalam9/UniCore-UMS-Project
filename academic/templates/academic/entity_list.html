@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} | UMS{% endblock %}
+{% block content %}
+<div class="page-header"><div><span class="eyebrow">Academic Administration</span><h1>{{ title }}</h1><p>{{ subtitle }}</p></div><a class="btn btn-primary" href="{% url add_url %}">+ Add New</a></div>
+{% include "academic/_nav.html" %}
+<form class="filter-bar" method="get" style="grid-template-columns:1fr auto auto"><input class="form-control" type="search" name="q" value="{{ query }}" placeholder="Search records"><button class="btn btn-secondary" type="submit">Search</button><a class="btn btn-ghost" href=".">Reset</a></form>
+<div class="table-card"><div class="table-responsive"><table><thead><tr>{% for header in headers %}<th>{{ header }}</th>{% endfor %}<th>Actions</th></tr></thead><tbody>
+{% for row in rows %}<tr>{% for cell in row.cells %}<td>{{ cell|default_if_none:"—" }}</td>{% endfor %}<td class="actions"><a href="{% url edit_url row.pk %}">Edit</a><a class="danger-link" href="{% url delete_url row.pk %}">Delete</a></td></tr>{% empty %}<tr><td colspan="20" class="empty-state">No records found.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% include "partials/pagination.html" %}
+{% endblock %}

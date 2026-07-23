@@ -1,0 +1,47 @@
+from django.urls import path
+
+from accounts.decorators import admin_required
+
+from . import views
+
+urlpatterns = [
+    path("", admin_required(views.academic_dashboard), name="academic_dashboard"),
+    path("departments/", admin_required(views.department_list), name="department_list"),
+    path("departments/add/", admin_required(views.department_add), name="department_add"),
+    path("departments/<int:pk>/edit/", admin_required(views.department_edit), name="department_edit"),
+    path("departments/<int:pk>/delete/", admin_required(views.department_delete), name="department_delete"),
+    path("courses/", admin_required(views.course_list), name="course_list"),
+    path("courses/add/", admin_required(views.course_add), name="course_add"),
+    path("courses/<int:pk>/edit/", admin_required(views.course_edit), name="course_edit"),
+    path("courses/<int:pk>/delete/", admin_required(views.course_delete), name="course_delete"),
+    path("enrollments/", admin_required(views.enrollment_list), name="enrollment_list"),
+    path("enrollments/add/", admin_required(views.enrollment_add), name="enrollment_add"),
+    path("enrollments/<int:pk>/edit/", admin_required(views.enrollment_edit), name="enrollment_edit"),
+    path("enrollments/<int:pk>/delete/", admin_required(views.enrollment_delete), name="enrollment_delete"),
+    path("assignments/", admin_required(views.assignment_list), name="assignment_list"),
+    path("assignments/add/", admin_required(views.assignment_add), name="assignment_add"),
+    path("assignments/<int:pk>/edit/", admin_required(views.assignment_edit), name="assignment_edit"),
+    path("assignments/<int:pk>/delete/", admin_required(views.assignment_delete), name="assignment_delete"),
+    path("attendance/", admin_required(views.attendance_list), name="attendance_list"),
+    path("attendance/add/", admin_required(views.attendance_add), name="attendance_add"),
+    path("attendance/<int:pk>/edit/", admin_required(views.attendance_edit), name="attendance_edit"),
+    path("attendance/<int:pk>/delete/", admin_required(views.attendance_delete), name="attendance_delete"),
+    path("results/", admin_required(views.result_list), name="result_list"),
+    path("results/add/", admin_required(views.result_add), name="result_add"),
+    path("results/<int:pk>/edit/", admin_required(views.result_edit), name="result_edit"),
+    path("results/<int:pk>/delete/", admin_required(views.result_delete), name="result_delete"),
+    path("fees/", admin_required(views.fee_list), name="fee_list"),
+    path("fees/add/", admin_required(views.fee_add), name="fee_add"),
+    path("fees/<int:pk>/edit/", admin_required(views.fee_edit), name="fee_edit"),
+    path("fees/<int:pk>/delete/", admin_required(views.fee_delete), name="fee_delete"),
+    path("routine/", admin_required(views.routine_list), name="routine_list"),
+    path("routine/add/", admin_required(views.routine_add), name="routine_add"),
+    path("routine/<int:pk>/edit/", admin_required(views.routine_edit), name="routine_edit"),
+    path("routine/<int:pk>/delete/", admin_required(views.routine_delete), name="routine_delete"),
+    path("bus-cards/", admin_required(views.bus_card_list), name="bus_card_list"),
+    path("bus-cards/<int:pk>/review/", admin_required(views.bus_card_review), name="bus_card_review"),
+    path("notices/", admin_required(views.notice_list), name="notice_list"),
+    path("notices/add/", admin_required(views.notice_add), name="notice_add"),
+    path("notices/<int:pk>/edit/", admin_required(views.notice_edit), name="notice_edit"),
+    path("notices/<int:pk>/delete/", admin_required(views.notice_delete), name="notice_delete"),
+]

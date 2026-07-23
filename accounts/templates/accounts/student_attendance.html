@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Attendance | UniCore{% endblock %}
+{% block header_title %}Attendance{% endblock %}
+{% block content %}
+<div class="page-header"><div><span class="eyebrow">Academic Progress</span><h1>Attendance Overview</h1><p>Course-wise attendance percentage and recent class records.</p></div></div>
+<div class="attendance-card-grid">
+{% for row in rows %}<article class="attendance-card"><div class="attendance-ring" style="--value: {{ row.rate }}"><span>{{ row.rate }}%</span></div><div><span class="course-code">{{ row.enrollment.course.code }}</span><h3>{{ row.enrollment.course.title }}</h3><div class="attendance-counts"><span><strong>{{ row.present }}</strong> Present</span><span><strong>{{ row.absent }}</strong> Absent</span><span><strong>{{ row.late }}</strong> Late</span></div></div></article>{% empty %}<div class="panel empty-state">No attendance information is available.</div>{% endfor %}
+</div>
+<section class="panel table-panel"><div class="panel-head"><div><span class="eyebrow">History</span><h2>Recent Attendance Records</h2></div></div><div class="table-responsive"><table><thead><tr><th>Date</th><th>Course</th><th>Status</th><th>Remarks</th></tr></thead><tbody>{% for item in records %}<tr><td>{{ item.date|date:"M d, Y" }}</td><td><strong>{{ item.enrollment.course.code }}</strong><small class="table-subtitle">{{ item.enrollment.course.title }}</small></td><td><span class="status-pill {% if item.status == 'P' %}success{% elif item.status == 'A' %}danger{% else %}warning{% endif %}">{{ item.get_status_display }}</span></td><td>{{ item.remarks|default:"—" }}</td></tr>{% empty %}<tr><td colspan="4" class="empty-state">No attendance records.</td></tr>{% endfor %}</tbody></table></div></section>
+{% endblock %}

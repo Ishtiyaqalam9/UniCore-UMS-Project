@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}{{ assignment.course.code }} Students | UMS{% endblock %}
+{% block content %}
+<div class="page-header"><div><span class="eyebrow">Assigned Course</span><h1>{{ assignment.course.code }} · {{ assignment.course.title }}</h1><p>{{ assignment.academic_year }} · Semester {{ assignment.semester }} · {{ assignment.course.department.name }}</p></div><div class="button-row"><a class="btn btn-secondary" href="{% url 'teacher_attendance' assignment.id %}">Mark Attendance</a><a class="btn btn-primary" href="{% url 'teacher_results' assignment.id %}">Enter Results</a></div></div>
+<div class="table-card"><div class="table-responsive"><table><thead><tr><th>Student ID</th><th>Student Name</th><th>Academic Year</th><th>Semester</th><th>Available Results</th></tr></thead><tbody>{% for item in enrollments %}<tr><td><strong>{{ item.student_ref }}</strong></td><td>{{ item.student_name }}</td><td>{{ item.academic_year }}</td><td>{{ item.semester }}</td><td>{% for result in results %}{% if result.enrollment_id == item.id %}<span class="badge">{{ result.exam_type }}: {{ result.grade }}</span> {% endif %}{% empty %}—{% endfor %}</td></tr>{% empty %}<tr><td colspan="5" class="empty-state">No students are enrolled in this assigned course.</td></tr>{% endfor %}</tbody></table></div></div>
+<div class="form-actions"><a class="btn btn-ghost" href="{% url 'teacher_portal' %}">← Back to Teacher Dashboard</a></div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Bus Card | UniCore{% endblock %}
+{% block header_title %}Bus Card Service{% endblock %}
+{% block content %}
+<div class="page-header"><div><span class="eyebrow">Campus Transport</span><h1>Bus Card Application</h1><p>Apply for or track your university transport card for {{ academic_year }}.</p></div></div>
+<div class="service-layout">
+  <section class="panel">
+    <div class="panel-head"><div><span class="eyebrow">Application Status</span><h2>{% if application %}{{ application.get_status_display }}{% else %}Not Applied{% endif %}</h2></div>{% if application %}<span class="status-pill status-{{ application.status|lower }}">{{ application.status }}</span>{% endif %}</div>
+    {% if application %}<div class="detail-grid compact-grid"><div><small>Student ID</small><strong>{{ application.student_ref }}</strong></div><div><small>Academic Year</small><strong>{{ application.academic_year }}</strong></div><div><small>Pickup Point</small><strong>{{ application.pickup_point }}</strong></div><div><small>Applied On</small><strong>{{ application.created_at|date:"M d, Y" }}</strong></div>{% if application.card_number %}<div><small>Card Number</small><strong>{{ application.card_number }}</strong></div>{% endif %}{% if application.expiry_date %}<div><small>Expiry Date</small><strong>{{ application.expiry_date }}</strong></div>{% endif %}</div>{% if application.admin_note %}<div class="admin-note"><strong>Office Note</strong><p>{{ application.admin_note }}</p></div>{% endif %}{% else %}<div class="empty-state compact">Complete the form to submit your first application.</div>{% endif %}
+  </section>
+  <section class="form-card">
+    <div class="panel-head"><div><span class="eyebrow">Application Form</span><h2>{% if application %}Update Details{% else %}Apply Now{% endif %}</h2></div></div>
+    {% if editable %}<form method="post" novalidate>{% csrf_token %}<div class="form-grid">{% for field in form %}<div class="form-group {% if field.name == 'address' %}span-2{% endif %}"><label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>{{ field }}{% for error in field.errors %}<div class="field-error">{{ error }}</div>{% endfor %}</div>{% endfor %}</div><div class="form-actions"><button class="btn btn-primary" type="submit">Submit Application</button></div></form>{% else %}<div class="info-strip"><strong>Your application is being processed.</strong><span>Contact the transport office if any information must be changed.</span></div>{% endif %}
+  </section>
+</div>
+{% endblock %}

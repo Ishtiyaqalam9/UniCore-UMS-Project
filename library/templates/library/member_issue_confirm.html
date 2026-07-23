@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Issue Book | UniCore{% endblock %}
+{% block header_title %}Issue Book{% endblock %}
+{% block content %}
+<div class="confirm-card book-confirm"><div class="book-cover large-cover"><span>{{ book.book_name|first|upper }}</span><small>{{ book.category|default:"Book" }}</small></div><div><span class="eyebrow">Confirm Issue</span><h1>{{ book.book_name }}</h1><p>by {{ book.writer }}</p><div class="detail-grid compact-grid"><div><small>Borrower</small><strong>{{ borrower_name }}</strong></div><div><small>ID</small><strong>{{ borrower_ref }}</strong></div><div><small>Issue Period</small><strong>14 days</strong></div><div><small>Due Date</small><strong>{{ due_date|date:"M d, Y" }}</strong></div></div>{% if duplicate %}<div class="alert alert-warning">You already have an active copy of this book.</div>{% elif active_count >= 5 %}<div class="alert alert-warning">You have reached the five-book borrowing limit.</div>{% else %}<form method="post">{% csrf_token %}<button class="btn btn-primary" type="submit">Confirm & Issue Book</button><a class="btn btn-ghost" href="{% url 'member_library_catalog' %}">Cancel</a></form>{% endif %}</div></div>
+{% endblock %}

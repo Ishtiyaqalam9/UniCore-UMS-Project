@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Class Routine | UniCore{% endblock %}
+{% block header_title %}Class Routine{% endblock %}
+{% block content %}
+<div class="page-header"><div><span class="eyebrow">Weekly Schedule</span><h1>My Class Routine</h1><p>Class times and rooms for your registered courses.</p></div></div>
+<div class="routine-grid">{% for item in routines %}<article class="routine-card"><span class="routine-day">{{ item.day }}</span><div class="routine-time">{{ item.start_time|time:"H:i" }} <span>–</span> {{ item.end_time|time:"H:i" }}</div><h3>{{ item.course.code }} · {{ item.course.title }}</h3><p>Room {{ item.room }}{% if item.teacher_name %} · {{ item.teacher_name }}{% endif %}</p></article>{% empty %}<div class="panel empty-state">No routine entries are available for your courses.</div>{% endfor %}</div>
+{% endblock %}

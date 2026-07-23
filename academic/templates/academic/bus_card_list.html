@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Bus Card Applications | UniCore{% endblock %}
+{% block header_title %}Bus Card Applications{% endblock %}
+{% block content %}
+<div class="page-header"><div><span class="eyebrow">Campus Transport</span><h1>Bus Card Applications</h1><p>Review, approve and track student transport card requests.</p></div></div>
+{% include "academic/_nav.html" %}
+<form class="filter-bar" method="get"><input class="form-control" type="search" name="q" value="{{ query }}" placeholder="Search student, ID, department or pickup point"><select class="form-control" name="status"><option value="">All statuses</option>{% for value,label in status_choices %}<option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><button class="btn btn-secondary" type="submit">Filter</button><a class="btn btn-ghost" href="{% url 'bus_card_list' %}">Reset</a></form>
+<div class="table-card"><div class="table-responsive"><table><thead><tr><th>Student</th><th>Department</th><th>Academic Year</th><th>Pickup Point</th><th>Contact</th><th>Status</th><th>Card Number</th><th>Action</th></tr></thead><tbody>{% for item in applications %}<tr><td><strong>{{ item.student_name }}</strong><small class="table-subtitle">{{ item.student_ref }}</small></td><td>{{ item.department|default:"—" }}<small class="table-subtitle">Semester {{ item.semester }}</small></td><td>{{ item.academic_year }}</td><td>{{ item.pickup_point }}</td><td>{{ item.phone }}</td><td><span class="status-pill status-{{ item.status|lower }}">{{ item.get_status_display }}</span></td><td>{{ item.card_number|default:"—" }}</td><td><a class="text-button" href="{% url 'bus_card_review' item.id %}">Review</a></td></tr>{% empty %}<tr><td colspan="8" class="empty-state">No bus card applications found.</td></tr>{% endfor %}</tbody></table></div></div>{% include "partials/pagination.html" %}
+{% endblock %}

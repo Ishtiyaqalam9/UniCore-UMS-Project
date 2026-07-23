@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Academic Center | UMS{% endblock %}
+{% block content %}
+<div class="page-header"><div><span class="eyebrow">Academic Administration</span><h1>Academic Center</h1><p>Manage departments, courses, enrollments, teacher assignments, attendance, results and schedules.</p></div><div class="button-row"><a class="btn btn-secondary" href="{% url 'assignment_add' %}">Assign Teacher</a><a class="btn btn-primary" href="{% url 'enrollment_add' %}">+ New Enrollment</a></div></div>
+{% include "academic/_nav.html" %}
+<div class="metric-grid">
+  <div class="metric"><span>Departments</span><strong>{{ department_count }}</strong><a href="{% url 'department_list' %}">Manage departments →</a></div>
+  <div class="metric"><span>Active Courses</span><strong>{{ course_count }}</strong><a href="{% url 'course_list' %}">Manage courses →</a></div>
+  <div class="metric"><span>Enrollments</span><strong>{{ enrollment_count }}</strong><a href="{% url 'enrollment_list' %}">View enrollment →</a></div>
+  <div class="metric"><span>Teacher Assignments</span><strong>{{ assignment_count }}</strong><a href="{% url 'assignment_list' %}">View assignments →</a></div>
+  <div class="metric"><span>Attendance Records</span><strong>{{ attendance_count }}</strong><a href="{% url 'attendance_list' %}">View attendance →</a></div>
+  <div class="metric"><span>Published Results</span><strong>{{ result_count }}</strong><a href="{% url 'result_list' %}">View results →</a></div>
+  <div class="metric"><span>Outstanding Fees</span><strong>৳{{ fee_due|floatformat:0 }}</strong><a href="{% url 'fee_list' %}">View fee ledger →</a></div>
+  <div class="metric"><span>Pending Bus Cards</span><strong>{{ pending_bus_cards }}</strong><a href="{% url 'bus_card_list' %}">Review applications →</a></div>
+  <div class="metric"><span>Active Notices</span><strong>{{ notice_count }}</strong><a href="{% url 'notice_list' %}">Manage notices →</a></div>
+</div>
+<div class="split-section">
+  <div class="panel"><div class="panel-head"><h2>Recent Notices</h2><a href="{% url 'notice_add' %}">+ Add</a></div>{% for notice in recent_notices %}<article class="notice"><div><strong>{{ notice.title }}</strong><p>{{ notice.content|truncatechars:120 }}</p></div><span><small>{{ notice.audience }}</small>{{ notice.publish_date|date:"M d" }}</span></article>{% empty %}<div class="empty-state">No active notices.</div>{% endfor %}</div>
+  <div class="panel"><div class="panel-head"><h2>Upcoming Routine</h2><a href="{% url 'routine_add' %}">+ Add</a></div>{% for item in routines %}<article class="notice"><div><strong>{{ item.course.code }} · {{ item.room }}</strong><p>{{ item.teacher_name|default:"Teacher not assigned" }}</p></div><span><small>{{ item.day }}</small>{{ item.start_time|time:"H:i" }}</span></article>{% empty %}<div class="empty-state">No routine entries.</div>{% endfor %}</div>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Students | UMS{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <span class="eyebrow">Student Records</span>
+    <h1>Student Management</h1>
+    <p>Create and manage student profiles, academic status and contact information.</p>
+  </div>
+  <a class="btn btn-primary" href="{% url 'add_student' %}">+ Add Student</a>
+</div>
+
+<form class="filter-bar" method="get">
+  <input class="form-control" type="search" name="q" value="{{ query }}" placeholder="Search ID, name, email or phone">
+  <select class="form-control" name="department">
+    <option value="">All departments</option>
+    {% for department in departments %}
+      <option value="{{ department }}" {% if selected_department == department %}selected{% endif %}>{{ department }}</option>
+    {% endfor %}
+  </select>
+  <select class="form-control" name="status">
+    <option value="">All statuses</option>
+    {% for value, label in status_choices %}
+      <option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>{{ label }}</option>
+    {% endfor %}
+  </select>
+  <button class="btn btn-secondary" type="submit">Filter</button>
+  <a class="btn btn-ghost" href="{% url 'student_list' %}">Reset</a>
+</form>
+
+<div class="table-card">
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>Student ID</th><th>Name</th><th>Department</th><th>Semester</th><th>Contact</th><th>Status</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in students %}
+          <tr>
+            <td><strong>{{ student.reference_code }}</strong></td>
+            <td>{{ student.name }}<div class="muted">Age {{ student.age }}{% if student.gender %} · {{ student.gender }}{% endif %}</div></td>
+            <td>{{ student.dept|default:"—" }}</td>
+            <td>{{ student.semester }}</td>
+            <td>{{ student.email|default:"—" }}<div class="muted">{{ student.phone|default:"" }}</div></td>
+            <td><span class="badge">{{ student.status }}</span></td>
+            <td class="actions">
+              <a href="{% url 'edit_student' student.pk %}">Edit</a>
+              <a class="danger-link" href="{% url 'delete_student' student.pk %}">Delete</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="7" class="empty-state">No student records found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% include "partials/pagination.html" %}
+{% endblock %}

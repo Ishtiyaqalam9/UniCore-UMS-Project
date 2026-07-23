@@ -1,0 +1,92 @@
+UNICORE UNIVERSITY MANAGEMENT SYSTEM - START HERE
+
+FIRST-TIME SETUP
+================
+The project uses the existing database connections:
+- Student profiles: MySQL
+- Teacher profiles: PostgreSQL
+- Library catalog and transactions: MongoDB
+- Accounts, academics, bus cards and Django core: SQLite
+
+WINDOWS
+-------
+1. Start MySQL, PostgreSQL and MongoDB.
+2. Create the MySQL database "student" and PostgreSQL database "teacher".
+3. Open the UniCore_UMS folder in VS Code.
+4. Run setup_windows.bat once.
+5. Run run_server.bat.
+6. Open http://127.0.0.1:8000/
+
+You can also run manually:
+  python -m venv venv
+  venv\Scripts\activate
+  pip install -r requirements.txt
+  python manage.py migrate
+  python manage.py migrate --database=mysql
+  python manage.py migrate --database=postgres
+  python manage.py createsuperuser
+  python manage.py runserver
+
+MACOS / LINUX
+-------------
+1. Start MySQL, PostgreSQL and MongoDB.
+2. Create the MySQL database "student" and PostgreSQL database "teacher".
+3. Open the UniCore_UMS folder in VS Code Terminal.
+4. Run:
+   chmod +x setup_mac.sh run_server_mac.sh
+   ./setup_mac.sh
+   ./run_server_mac.sh
+5. Open http://127.0.0.1:8000/
+
+IMPORTANT MIGRATION NOTE
+------------------------
+This version adds the Bus Card Application module. After replacing an older
+version of the project, run this command before starting the server:
+  python manage.py migrate
+
+Student and Teacher model migrations still use their own aliases:
+  python manage.py migrate --database=mysql
+  python manage.py migrate --database=postgres
+
+LOGIN ACCOUNT SETUP
+-------------------
+1. Sign in using the superuser account.
+2. Add Student and Teacher profiles.
+3. Create departments, courses and teacher assignments.
+4. Open User Accounts > Create Account.
+5. Select Student or Teacher and enter the matching STU-/TCH- reference ID.
+6. Give the username and password to that person.
+
+STUDENT PORTAL
+--------------
+- Left sidebar navigation with separate pages
+- Profile and registered courses
+- Self-service course registration and safe withdrawal
+- Attendance, results, class routine and fees
+- Library catalog, self-issue, return and history
+- Bus card application and status tracking
+- Notices and password change
+
+FACULTY PORTAL
+--------------
+- Left sidebar navigation with separate pages
+- Profile and assigned courses
+- Course student lists
+- Date-wise attendance entry and update
+- Result entry and update
+- Teaching routine
+- Library catalog, self-issue, return and history
+- Notices and password change
+
+ADMINISTRATION
+--------------
+- Student and teacher management
+- Academic management
+- Library inventory and transaction management
+- Bus card review, approval and card tracking
+- User account creation and password reset
+- Notices, routine, fees, attendance and results
+
+
+UI NOTE:
+Use the provided run_server_mac.sh or run_server.bat. They force local static-file serving so the sidebar and dashboard styling always load. After replacing an older copy, hard-refresh once with Command+Shift+R (Mac) or Ctrl+F5 (Windows).
