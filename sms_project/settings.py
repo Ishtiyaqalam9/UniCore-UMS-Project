@@ -86,13 +86,13 @@ DATABASES = {
         "OPTIONS": {"charset": "utf8mb4"},
     },
     "postgres": {
-    "ENGINE": "django.db.backends.postgresql",
-    "NAME": os.getenv("POSTGRES_DATABASE", "teacher").strip(),
-    "USER": os.getenv("POSTGRES_USER", "postgres").strip(),
-    "PASSWORD": os.getenv("POSTGRES_PASSWORD", ""),
-    "HOST": os.getenv("POSTGRES_HOST", "localhost").strip(),
-    "PORT": os.getenv("POSTGRES_PORT", "5432").strip(),
-},
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("POSTGRES_DATABASE", "teacher"),
+        "USER": os.getenv("POSTGRES_USER", "postgres"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "Ishtiyaq@826735"),
+        "HOST": os.getenv("POSTGRES_HOST", "localhost"),
+        "PORT": os.getenv("POSTGRES_PORT", "5432"),
+    },
 }
 
 # Safe local test mode. The normal project still uses MySQL/PostgreSQL.
