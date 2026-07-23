@@ -1,4 +1,6 @@
 import re
+import logging
+logger = logging.getLogger(__name__)
 from datetime import datetime, timedelta, timezone
 
 from bson import ObjectId
@@ -26,7 +28,13 @@ def _object_id(value):
 
 
 def _mongo_error(request, exc):
-    messages.error(request, "The library service is currently unavailable. Please try again after the service is started.")
+    logger.exception("MongoDB operation failed: %s", exc)
+
+    messages.error(
+        request,
+        "The library service is currently unavailable. "
+        "Please try again after the service is started."
+    )
 
 
 def _member_identity(request):
