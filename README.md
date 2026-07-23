@@ -187,7 +187,7 @@ Installation
 
 1. Clone the Repository
 
-git clone https://github.com/YOUR_USERNAME/UniCore-UMS.git
+git clone https://github.com/ishtiyaqalam9/UniCore-UMS-Project.git
 cd UniCore-UMS/UniCore_UMS
 
 Replace YOUR_USERNAME with your GitHub username.
