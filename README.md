@@ -1,442 +1,201 @@
-নিচে আপনার project-এর updated feature অনুযায়ী একই style-এ README দিলাম।
+# UniCore University Management System
 
-# 🎓 University Management System (UMS)
+A role-based Django University Management System for students, teachers and administrators. The project preserves the original database connections while providing a unified and user-friendly portal.
 
-A Django-based University Management System designed to manage students, teachers, courses, attendance, results, library activities, and other academic operations through separate role-based portals.
+## Main user experience
 
-This project demonstrates how multiple databases can be integrated and used within a single Django application.
+After login, every role receives a dedicated left-sidebar dashboard with separate pages and role-specific permissions.
 
-## 📌 Project Objective
+### Student portal
 
-The main objective of this project is to learn and demonstrate Django's **Multi-Database Architecture** along with a complete role-based university management system.
+- Personal profile
+- Self-service course registration
+- Registered course list and safe course withdrawal
+- Course-wise attendance percentage and history
+- Results and automatic grades
+- Fee statement and outstanding balance
+- Weekly class routine
+- Library catalog and self-service book issue
+- Personal issue/return history
+- Bus card application and application tracking
+- Student notices
+- Password change
 
-Although Django uses **SQLite3** as its default database, this project also integrates:
+### Faculty portal
 
-* MySQL
-* PostgreSQL
-* MongoDB (NoSQL)
+- Faculty profile
+- Assigned course list
+- Enrolled student lists
+- Date-wise attendance entry and update
+- Result entry and update
+- Teaching routine
+- Library catalog and self-service book issue
+- Personal issue/return history
+- Faculty notices
+- Password change
 
-All four databases are used for different modules of the same Django project.
+### Administration portal
 
----
+- Student and teacher profile management
+- Department and course management
+- Enrollment and teacher-course assignments
+- Attendance and result administration
+- Student fee ledger
+- Class routine and notices
+- Library catalog, copy availability, issue and return records
+- Bus card application review, approval, printing and collection status
+- Student, teacher and administrator login account management
+- Django system administration
 
-## 🗄 Databases Used
+## Database mapping
 
-| Module                                 | Database        |
-| -------------------------------------- | --------------- |
-| Student Management                     | MySQL           |
-| Teacher Management                     | PostgreSQL      |
-| Library Management                     | MongoDB (NoSQL) |
-| Authentication and Academic Management | SQLite3         |
+| Area | Database | Django app |
+|---|---|---|
+| Student profiles | MySQL database `student` | `student` |
+| Teacher profiles | PostgreSQL database `teacher` | `teacher` |
+| Library books and transactions | MongoDB database `library_db` | `library` |
+| Authentication, academics, bus cards and admin | SQLite `db.sqlite3` | `accounts`, `academic`, Django core |
 
----
+Academic records store stable student and teacher reference IDs, such as `STU-0001` and `TCH-0001`, instead of unsupported cross-database foreign keys.
 
-## 👥 User Roles
+## Requirements
 
-The system provides three different user roles:
+- Python 3.10 or newer
+- MySQL Server
+- PostgreSQL Server
+- MongoDB Server
 
-* Admin
-* Student
-* Teacher
+## First-time Windows setup
 
-Users must select their correct role before signing in. After successful authentication, each user is redirected to a separate role-based dashboard.
-
----
-
-## 🚀 Features
-
-### 🛡️ Admin Portal
-
-* Admin Login
-* Dashboard Overview
-* Add, Update, Delete, and View Students
-* Add, Update, Delete, and View Teachers
-* Create Student and Teacher Accounts
-* Manage Departments
-* Manage Courses
-* Assign Courses to Teachers
-* Enroll Students in Courses
-* Manage Attendance
-* Manage Student Results
-* Manage Academic Sessions
-* Manage Class Routines
-* Manage Student Fees
-* Manage Notices
-* Manage Bus Card Applications
-* Manage Library Books and Borrowing Records
-* Reset User Passwords
-
-### 👨‍🎓 Student Management — MySQL
-
-* Student Login
-* View Student Dashboard
-* View and Update Personal Profile
-* Register for Available Courses
-* Withdraw from Registered Courses
-* View Attendance Records
-* View Academic Results
-* View Class Routine
-* View Fee Information
-* View University Notices
-* Browse Library Books
-* Borrow and Return Books
-* View Borrowing History
-* Apply for a Bus Card
-* Track Bus Card Application Status
-* Change Password
-* Search Students by Student ID
-* Filter Students by Department
-
-### 👨‍🏫 Teacher Management — PostgreSQL
-
-* Teacher Login
-* View Teacher Dashboard
-* View and Update Personal Profile
-* View Courses Assigned by Admin
-* View Students Enrolled in Assigned Courses
-* Take Student Attendance
-* Update Attendance Records
-* Enter Student Assessment Results
-* Update Student Results
-* View Teaching Routine
-* View University Notices
-* Browse Library Books
-* Borrow and Return Books
-* Change Password
-* Search Teachers by Teacher ID
-
-### 📚 Library Management — MongoDB
-
-* Add Books
-* Update Book Information
-* Delete Books
-* View Book List
-* Search Available Books
-* Issue Books to Students and Teachers
-* Return Borrowed Books
-* Maintain Borrowing History
-* Track Book Availability
-* Prevent Duplicate Active Book Loans
-
-### 📖 Academic Management — SQLite3
-
-* Department Management
-* Course Management
-* Teacher Course Assignment
-* Student Course Enrollment
-* Attendance Management
-* Result Management
-* Academic Session Management
-* Routine Management
-* Fee Management
-* Notice Management
-* Bus Card Application Management
-* User Authentication
-* Role-Based Access Control
-
----
-
-## 🔐 Role-Based Login System
-
-The login page contains three role options:
-
-* Student
-* Teacher
-* Admin
-
-Users must select the correct role before submitting their login credentials.
-
-The system verifies the selected role and redirects the user to the appropriate dashboard.
-
-A Student cannot access the Teacher or Admin portal, and a Teacher cannot access the Admin or Student portal without proper permission.
-
----
-
-## 🔀 Multi-Database Architecture
-
-This project uses multiple databases for different applications.
-
-* Student application → MySQL
-* Teacher application → PostgreSQL
-* Library application → MongoDB
-* Default Django and Academic applications → SQLite3
-
-Django's custom **Database Router** routes Student application queries to MySQL and Teacher application queries to PostgreSQL.
-
-MongoDB is integrated separately using **PyMongo** for Library Management.
-
-SQLite3 is used for Django authentication, academic records, attendance, results, course assignments, fees, routines, notices, and other default Django tables.
-
----
-
-## ⚙️ Technologies Used
-
-* Python
-* Django 5
-* Django ORM
-* SQLite3
-* MySQL
-* PostgreSQL
-* MongoDB
-* PyMongo
-* HTML5
-* CSS3
-* JavaScript
-* Bootstrap 5
-* Session Authentication
-* Git and GitHub
-
----
-
-## 📂 Project Structure
-
-```text
-UMS
-│
-├── accounts/
-├── academic/
-├── student/
-├── teacher/
-├── library/
-├── home/
-├── database/
-├── templates/
-├── static/
-├── sms_project/
-├── db.sqlite3
-├── manage.py
-├── requirements.txt
-└── README.md
-```
-
----
-
-## ▶️ Installation
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/Ishtiyaqalam9/UniCore-UMS-Project.git
-```
-
-### 2. Go to the Project Directory
-
-```bash
-cd UMS-project-Using-MySQL-PostgreSQL-NoSQL
-```
-
-### 3. Create a Virtual Environment
-
-```bash
+```bat
 python -m venv venv
-```
-
-### 4. Activate the Virtual Environment
-
-#### Windows
-
-```bash
 venv\Scripts\activate
-```
-
-#### macOS / Linux
-
-```bash
-source venv/bin/activate
-```
-
-### 5. Install Dependencies
-
-```bash
+python -m pip install --upgrade pip
 pip install -r requirements.txt
+python manage.py migrate
+python manage.py migrate --database=mysql
+python manage.py migrate --database=postgres
+python manage.py createsuperuser
+python manage.py runserver
 ```
 
----
+The included scripts provide the same workflow:
 
-## 🛠️ Database Setup
-
-Before running the project, make sure MySQL, PostgreSQL, and MongoDB services are running.
-
-### MySQL Database
-
-Create the Student database:
-
-```sql
-CREATE DATABASE student;
+```bat
+setup_windows.bat
+run_server.bat
 ```
 
-### PostgreSQL Database
+## First-time macOS/Linux setup
 
-Create the Teacher database:
-
-```sql
-CREATE DATABASE teacher;
+```bash
+python3 -m venv venv
+source venv/bin/activate
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py migrate --database=mysql
+python manage.py migrate --database=postgres
+python manage.py createsuperuser
+python manage.py runserver
 ```
 
-### MongoDB Database
+Or use:
 
-MongoDB automatically creates the following database when Library data is first inserted:
-
-```text
-library_db
+```bash
+chmod +x setup_mac.sh run_server_mac.sh
+./setup_mac.sh
+./run_server_mac.sh
 ```
 
-### SQLite3 Database
+Open `http://127.0.0.1:8000/`.
 
-SQLite3 is used as the default Django database.
+## Upgrading from the previous ZIP
 
-The database file is:
-
-```text
-db.sqlite3
-```
-
----
-
-## 🔄 Run Database Migrations
-
-Run the default SQLite3 migrations:
+The updated version includes a new SQLite migration for Bus Card Applications. Run:
 
 ```bash
 python manage.py migrate
 ```
 
-Run MySQL migrations:
+The migration files for Student and Teacher remain in their respective applications. Run their alias migrations after changes to those models:
 
 ```bash
 python manage.py migrate --database=mysql
-```
-
-Run PostgreSQL migrations:
-
-```bash
 python manage.py migrate --database=postgres
 ```
 
-MongoDB does not require Django migrations because it is managed through PyMongo.
+MongoDB documents do not use Django migrations.
 
----
+## Creating Student and Teacher login accounts
 
-## 👤 Create Admin Account
+1. Sign in as the superuser.
+2. Add the Student or Teacher profile.
+3. Open **User Accounts** from the sidebar.
+4. Select **Create Account**.
+5. Select the correct role and enter the matching reference ID.
+6. Set a username and password.
 
-Create a Django superuser:
+The user is automatically redirected to the correct portal after login.
+
+## Course registration behavior
+
+Students can register themselves for active courses offered in their current semester. Duplicate enrollment is prevented. A student can withdraw a course only before attendance or result records exist.
+
+## Library behavior
+
+Students and teachers can browse the catalog and issue available books directly to their own accounts. The default issue period is 14 days, and each member can hold up to five active books. Users can return books from **My Library**. Administrators can also issue and return books for either role.
+
+## Bus card workflow
+
+1. Student opens **Bus Card** and submits contact, pickup and emergency information.
+2. The request starts as **Pending**.
+3. Administrator reviews the request from **Bus Cards**.
+4. Administrator can mark it Approved, Rejected, Printed or Collected and add card details.
+5. The student sees the updated status in the portal.
+
+## Development checks
+
+To test without live MySQL and PostgreSQL servers:
+
+**Windows CMD**
+
+```bat
+set UMS_USE_SQLITE_FOR_ALL=1
+python manage.py test
+```
+
+**macOS/Linux**
 
 ```bash
-python manage.py createsuperuser
+UMS_USE_SQLITE_FOR_ALL=1 python manage.py test
 ```
 
-Enter the required username, email address, and password.
+The project includes automated tests for role permissions, navigation pages, course registration, bus card application, attendance and result entry.
 
----
+## Troubleshooting
 
-## ▶️ Run the Project
+- **MySQL connection error:** verify the `student` database, credentials, service and port 3306.
+- **PostgreSQL connection error:** verify the `teacher` database, credentials, service and port 5432.
+- **Library unavailable:** start MongoDB and verify port 27017.
+- **New page reports a missing table:** run `python manage.py migrate`.
+- **Student/Teacher columns missing:** run migration with the correct database alias.
+- **CSS does not load:** start the project using Django rather than opening HTML files directly.
 
-```bash
-python manage.py runserver
-```
-
-Open the following link in your browser:
+## Project structure
 
 ```text
-http://127.0.0.1:8000/
+UniCore_UMS/
+├── accounts/       # Roles, portals, registration and campus services
+├── academic/       # Courses, attendance, results, fees, routine, bus cards
+├── home/           # Administration dashboard
+├── library/        # Catalog and issue/return workflow
+├── student/        # Student profiles
+├── teacher/        # Faculty profiles
+├── sms_project/    # Settings, root routes and database router
+├── static/ums/     # Responsive UI styles and sidebar JavaScript
+├── templates/      # Base layout and authentication templates
+├── db.sqlite3
+├── manage.py
+└── requirements.txt
 ```
-
-Select the appropriate role and sign in.
-
----
-
-## 👨‍🏫 Assigning Courses to Teachers
-
-An Admin can assign courses to Teachers from:
-
-```text
-Teacher Management → Assign Course
-```
-
-or:
-
-```text
-Academic → Assignments
-```
-
-The Admin must select:
-
-* Teacher
-* Course
-* Academic Year
-
-After the assignment is saved, the course appears in the Teacher portal.
-
-The Teacher can then view enrolled Students, take attendance, and manage results for the assigned course.
-
----
-
-## 🔒 Security Features
-
-* Secure Password Hashing
-* Role-Based Authentication
-* Role-Based Authorization
-* CSRF Protection
-* Session Authentication
-* Restricted Admin, Student, and Teacher Portals
-* Server-Side Form Validation
-* Duplicate Course Registration Prevention
-* Teacher Access Limited to Assigned Courses
-* Student Access Limited to Personal Records
-* Protected Administrative Operations
-
----
-
-## 📚 What I Learned
-
-* Django Multi-Database Configuration
-* Custom Database Router
-* SQLite3 Integration
-* MySQL Integration
-* PostgreSQL Integration
-* MongoDB Integration Using PyMongo
-* Role-Based Login System
-* Role-Based Access Control
-* CRUD Operations
-* Course Assignment System
-* Student Course Enrollment
-* Attendance Management
-* Result Management
-* Django Template Engine
-* Bootstrap 5
-* Session Authentication
-* Django Project Structure
-* Git and GitHub
-
----
-
-## 🔮 Future Improvements
-
-* REST API
-* Mobile Application
-* Online Payment Integration
-* Email and SMS Notifications
-* Guardian Portal
-* Hostel Management
-* Payroll Management
-* Advanced Dashboard Analytics
-* Downloadable Transcripts
-* PDF Report Generation
-* Docker Support
-* Cloud Deployment
-
----
-
-## 👨‍💻 Author
-
-**Ishtiyaq Alam**
-
-Department of Computer Science and Engineering (CSE)
-
-Bangladesh Army International University of Science and Technology (BAIUST)
-
-GitHub: [https://github.com/Ishtiyaqalam9](https://github.com/Ishtiyaqalam9)
-
----
-
-⭐ If you found this project helpful, feel free to star the repository.
